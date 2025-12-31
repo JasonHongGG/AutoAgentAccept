@@ -1,0 +1,82 @@
+{
+  "name": "auto-agent-accept",
+  "displayName": "Auto Agent Accept",
+  "description": "Auto-accepts VS Code modal dialogs (e.g., when an agent asks to run a command) while enabled.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "license": "UNLICENSED",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:autoAgentAccept.toggle",
+    "onCommand:autoAgentAccept.enable",
+    "onCommand:autoAgentAccept.disable",
+    "onCommand:autoAgentAccept.testCommandOnce"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "autoAgentAccept.toggle",
+        "title": "Auto Agent Accept: Toggle"
+      },
+      {
+        "command": "autoAgentAccept.enable",
+        "title": "Auto Agent Accept: Enable"
+      },
+      {
+        "command": "autoAgentAccept.disable",
+        "title": "Auto Agent Accept: Disable"
+      },
+      {
+        "command": "autoAgentAccept.testCommandOnce",
+        "title": "Auto Agent Accept: Test Candidate Command Once"
+      }
+    ],
+    "configuration": {
+      "title": "Auto Agent Accept",
+      "properties": {
+        "autoAgentAccept.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable auto-accept loop (calls workbench.action.acceptModalDialog on an interval)."
+        },
+        "autoAgentAccept.intervalMs": {
+          "type": "number",
+          "default": 250,
+          "minimum": 50,
+          "description": "Polling interval in milliseconds. Smaller = faster accept, but more aggressive."
+        },
+        "autoAgentAccept.showNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a VS Code notification when enabling/disabling."
+        },
+        "autoAgentAccept.commandIds": {
+          "type": "array",
+          "default": ["workbench.action.chat.acceptTool"],
+          "items": {
+            "type": "string"
+          },
+          "description": "Command IDs to execute on an interval while enabled. For Copilot Chat tool approval, 'workbench.action.chat.acceptTool' is commonly the Allow action." 
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "package": "vsce package",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.10",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.4.5"
+  }
+}
