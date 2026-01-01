@@ -59,7 +59,7 @@
         },
         "autoAgentAccept.commandIds": {
           "type": "array",
-          "default": ["workbench.action.chat.acceptTool"],
+          "default": ["workbench.action.chat.acceptTool", "antigravity.agent.acceptAgentStep"],
           "items": {
             "type": "string"
           },
