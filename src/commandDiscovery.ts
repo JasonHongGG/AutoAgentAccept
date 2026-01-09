@@ -11,6 +11,12 @@ export function isCandidateCommandId(commandId: string): boolean {
 		hay.includes('dialog') ||
 		hay.includes('notification') ||
 		hay.includes('inlinechat') ||
-		hay.includes('chat')
+		hay.includes('chat') ||
+		hay.includes('antigravity')||
+		hay.includes('confirm') ||
+		hay.includes('Proposal') ||
+		hay.includes('approve') ||
+		hay.includes('apply') ||
+		hay.includes('keep') 
 	);
 }

@@ -16,7 +16,8 @@
     "onCommand:autoAgentAccept.toggle",
     "onCommand:autoAgentAccept.enable",
     "onCommand:autoAgentAccept.disable",
-    "onCommand:autoAgentAccept.testCommandOnce"
+    "onCommand:autoAgentAccept.testCommandOnce",
+    "onCommand:autoAgentAccept.testCommandsMulti"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -36,6 +37,10 @@
       {
         "command": "autoAgentAccept.testCommandOnce",
         "title": "Auto Agent Accept: Test Candidate Command Once"
+      },
+      {
+        "command": "autoAgentAccept.testCommandsMulti",
+        "title": "Auto Agent Accept: Test Candidate Commands (Multi-Select)"
       }
     ],
     "configuration": {

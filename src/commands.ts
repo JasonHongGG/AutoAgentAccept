@@ -21,6 +21,9 @@ export function registerCommands(context: vscode.ExtensionContext, applyEnabledS
 		}),
 		vscode.commands.registerCommand('autoAgentAccept.testCommandOnce', async () => {
 			await testCommandOnce();
+		}),
+		vscode.commands.registerCommand('autoAgentAccept.testCommandsMulti', async () => {
+			await testCommandsMulti();
 		})
 	);
 }
@@ -44,5 +47,52 @@ async function testCommandOnce() {
 	} catch (err) {
 		console.error(err);
 		void vscode.window.showWarningMessage(`Failed to execute: ${picked}`);
+	}
+}
+
+async function testCommandsMulti() {
+	const all = await vscode.commands.getCommands(true);
+	const candidates = all.filter(isCandidateCommandId).sort((a, b) => a.localeCompare(b));
+
+	const picked = await vscode.window.showQuickPick(candidates, {
+		canPickMany: true,
+		placeHolder: 'Pick command IDs to execute (multi-select; use while the Allow button is visible)',
+		matchOnDescription: false,
+		matchOnDetail: false,
+	});
+	if (!picked || picked.length === 0) return;
+
+	const executed: string[] = [];
+	const failed: string[] = [];
+
+	await vscode.window.withProgress(
+		{
+			location: vscode.ProgressLocation.Notification,
+			title: 'Auto Agent Accept: executing commands',
+			cancellable: false,
+		},
+		async (progress) => {
+			for (let i = 0; i < picked.length; i++) {
+				const commandId = picked[i];
+				progress.report({ message: `${i + 1}/${picked.length}: ${commandId}` });
+				try {
+					await vscode.commands.executeCommand(commandId);
+					executed.push(commandId);
+				} catch (err) {
+					console.error(err);
+					failed.push(commandId);
+				}
+			}
+		}
+	);
+
+	if (getShowNotifications()) {
+		if (failed.length === 0) {
+			void vscode.window.showInformationMessage(`Executed ${executed.length} command(s).`);
+		} else {
+			void vscode.window.showWarningMessage(
+				`Executed ${executed.length} command(s). Failed ${failed.length}: ${failed.join(', ')}`
+			);
+		}
 	}
 }

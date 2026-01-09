@@ -12,6 +12,7 @@ This extension helps you **auto-run specific VS Code commands** while enabled.
   - `Auto Agent Accept: Enable`
   - `Auto Agent Accept: Disable`
   - `Auto Agent Accept: Test Candidate Command Once`
+  - `Auto Agent Accept: Test Candidate Commands (Multi-Select)`
 
 ## Settings
 
@@ -29,7 +30,9 @@ Those buttons may come from different VS Code UI surfaces:
 
 To find what works in your VS Code build:
 
-1. When the **Allow** button is visible, run: `Auto Agent Accept: Test Candidate Command Once` and try likely candidates
+1. When the **Allow** button is visible, run either:
+  - `Auto Agent Accept: Test Candidate Command Once` (single)
+  - `Auto Agent Accept: Test Candidate Commands (Multi-Select)` (pick multiple and execute them in order)
 2. Once you find the correct command ID, put it into `autoAgentAccept.commandIds`
 3. Enable auto-accept and test again
 
